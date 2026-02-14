@@ -1,0 +1,244 @@
+/* ==========================================
+   QUANTUM RESEARCH LAB THEME SYSTEM
+   Futuristic Galaxy Explorer + Lab Interface
+   ========================================== */
+
+:root {
+  /* ===== COLOR PALETTE ===== */
+  
+  /* Primary Accent Colors (consistent across themes) */
+  --accent-cyan: #00f0ff;
+  --accent-plasma: #b026ff;
+  --accent-electric: #0080ff;
+  --accent-neon-green: #00ff88;
+  --accent-warning: #ffaa00;
+  --accent-danger: #ff3366;
+  
+  /* Typography Scale */
+  --font-heading: 'Orbitron', 'Rajdhani', 'Exo 2', sans-serif;
+  --font-body: 'Inter', 'Roboto', 'system-ui', sans-serif;
+  --font-mono: 'Fira Code', 'Roboto Mono', monospace;
+  
+  /* Spacing System */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  
+  /* Animation Timing */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Glass Effect */
+  --glass-blur: 24px;
+  --glass-border: 1px;
+  
+  /* Shadow System */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+  --shadow-glow-strong: 0 0 40px rgba(0, 240, 255, 0.5);
+}
+
+/* ===== DARK MODE (Space Station) ===== */
+[data-theme="dark"] {
+  /* Background Layers */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a24;
+  --bg-elevated: #22222e;
+  
+  /* Surface Colors */
+  --surface-glass: rgba(18, 18, 26, 0.6);
+  --surface-glass-hover: rgba(18, 18, 26, 0.8);
+  --surface-solid: #1a1a24;
+  --surface-overlay: rgba(10, 10, 15, 0.95);
+  
+  /* Text Colors */
+  --text-primary: #f0f0f5;
+  --text-secondary: #b8b8c8;
+  --text-tertiary: #808090;
+  --text-disabled: #505058;
+  --text-accent: var(--accent-cyan);
+  
+  /* Border Colors */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.15);
+  --border-strong: rgba(255, 255, 255, 0.25);
+  --border-glow: rgba(0, 240, 255, 0.4);
+  
+  /* Interactive States */
+  --interactive-hover: rgba(0, 240, 255, 0.1);
+  --interactive-active: rgba(0, 240, 255, 0.2);
+  --interactive-disabled: rgba(255, 255, 255, 0.05);
+  
+  /* Node/Planet Colors (Galaxy Map) */
+  --node-projects: #00f0ff;
+  --node-skills: #b026ff;
+  --node-experience: #ff6b35;
+  --node-contact: #00ff88;
+  --node-blog: #ffd93d;
+  
+  /* Glow Effects */
+  --glow-soft: rgba(0, 240, 255, 0.15);
+  --glow-medium: rgba(0, 240, 255, 0.3);
+  --glow-strong: rgba(0, 240, 255, 0.5);
+  
+  /* Starfield Colors */
+  --star-primary: rgba(255, 255, 255, 0.8);
+  --star-secondary: rgba(0, 240, 255, 0.5);
+  --star-distant: rgba(255, 255, 255, 0.3);
+  
+  /* Success/Error States */
+  --status-success: #00ff88;
+  --status-warning: #ffaa00;
+  --status-error: #ff3366;
+  --status-info: #0080ff;
+  
+  /* Code Block Colors */
+  --code-bg: rgba(0, 0, 0, 0.4);
+  --code-border: rgba(0, 240, 255, 0.2);
+}
+
+/* ===== LIGHT MODE (Research Lab) ===== */
+[data-theme="light"] {
+  /* Background Layers - Clean Laboratory Aesthetic */
+  --bg-primary: #fafbff;
+  --bg-secondary: #f0f2f8;
+  --bg-tertiary: #e8ebf4;
+  --bg-elevated: #ffffff;
+  
+  /* Surface Colors - Frosted Glass Effect */
+  --surface-glass: rgba(255, 255, 255, 0.7);
+  --surface-glass-hover: rgba(255, 255, 255, 0.9);
+  --surface-solid: #ffffff;
+  --surface-overlay: rgba(250, 251, 255, 0.98);
+  
+  /* Text Colors - High Contrast */
+  --text-primary: #0f0f14;
+  --text-secondary: #404050;
+  --text-tertiary: #707080;
+  --text-disabled: #a0a0a8;
+  --text-accent: #0066cc;
+  
+  /* Border Colors - Subtle Constellation Lines */
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.12);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  --border-glow: rgba(0, 102, 204, 0.3);
+  
+  /* Interactive States */
+  --interactive-hover: rgba(0, 102, 204, 0.06);
+  --interactive-active: rgba(0, 102, 204, 0.12);
+  --interactive-disabled: rgba(0, 0, 0, 0.04);
+  
+  /* Node/Planet Colors (Same as dark for consistency) */
+  --node-projects: #00d4e6;
+  --node-skills: #9d1fe6;
+  --node-experience: #ff5722;
+  --node-contact: #00d977;
+  --node-blog: #ffb700;
+  
+  /* Glow Effects - Softer in Light Mode */
+  --glow-soft: rgba(0, 102, 204, 0.08);
+  --glow-medium: rgba(0, 102, 204, 0.15);
+  --glow-strong: rgba(0, 102, 204, 0.25);
+  
+  /* Starfield Colors - Subtle Dots */
+  --star-primary: rgba(0, 0, 0, 0.15);
+  --star-secondary: rgba(0, 102, 204, 0.2);
+  --star-distant: rgba(0, 0, 0, 0.08);
+  
+  /* Success/Error States */
+  --status-success: #00cc70;
+  --status-warning: #ff9900;
+  --status-error: #dd2255;
+  --status-info: #0080ff;
+  
+  /* Code Block Colors */
+  --code-bg: rgba(0, 0, 0, 0.04);
+  --code-border: rgba(0, 102, 204, 0.15);
+  
+  /* Light Mode Specific Shadows */
+  --shadow-glow: 0 0 20px rgba(0, 102, 204, 0.15);
+  --shadow-glow-strong: 0 0 40px rgba(0, 102, 204, 0.25);
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+.glass-panel {
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border) solid var(--border-medium);
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-base);
+}
+
+.glass-panel:hover {
+  background: var(--surface-glass-hover);
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-glow);
+}
+
+.holographic-border {
+  position: relative;
+  border: 1px solid transparent;
+  background: linear-gradient(var(--surface-glass), var(--surface-glass)) padding-box,
+              linear-gradient(135deg, var(--accent-cyan), var(--accent-plasma), var(--accent-electric)) border-box;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px var(--glow-medium);
+  transition: text-shadow var(--transition-base);
+}
+
+.glow-text:hover {
+  text-shadow: 0 0 20px var(--glow-strong);
+}
+
+.quantum-gradient {
+  background: linear-gradient(135deg, 
+    var(--accent-cyan) 0%, 
+    var(--accent-plasma) 50%, 
+    var(--accent-electric) 100%);
+}
+
+.shimmer-effect {
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px var(--glow-soft); }
+  50% { box-shadow: 0 0 30px var(--glow-strong); }
+}
+
+/* Smooth Theme Transition */
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: var(--transition-base);
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

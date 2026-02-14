@@ -1,19 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Calendar, ExternalLink, AlertCircle } from 'lucide-react';
+import { BookOpen, Calendar, ExternalLink, AlertCircle, Clock } from 'lucide-react';
 import { useBlogPosts } from '../hooks/useBlogPosts';
 
 interface BlogSectionProps {
-  isDarkMode: boolean;
   githubConfig: {
     username: string;
     repo: string;
     branch: string;
     blogsPath: string;
   };
+  accentColor?: string;
 }
 
-const BlogSection: React.FC<BlogSectionProps> = ({ isDarkMode, githubConfig }) => {
+const BlogSection: React.FC<BlogSectionProps> = ({ githubConfig, accentColor = 'var(--accent-warning)' }) => {
   const { posts, loading, error } = useBlogPosts(
     githubConfig.username,
     githubConfig.repo,
@@ -31,16 +31,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ isDarkMode, githubConfig }) =
   };
 
   const getExcerpt = (content: string, maxLength: number = 150) => {
-    // Remove frontmatter from content
     const contentWithoutFrontmatter = content.replace(/^---\s*\n[\s\S]*?\n---\s*\n/, '');
-    
-    // Remove markdown formatting for plain text excerpt
     const plainText = contentWithoutFrontmatter
-      .replace(/[#*`_~\[\]]/g, '') // Remove markdown symbols
-      .replace(/\n+/g, ' ') // Replace newlines with spaces
+      .replace(/[#*`_~\[\]]/g, '')
+      .replace(/\n+/g, ' ')
       .trim();
     
-    // Truncate to maxLength and add ellipsis
     if (plainText.length > maxLength) {
       return plainText.substring(0, maxLength).trim() + '...';
     }
@@ -51,37 +47,18 @@ const BlogSection: React.FC<BlogSectionProps> = ({ isDarkMode, githubConfig }) =
   const displayedPosts = showAllPosts ? posts : posts.slice(0, 6);
 
   return (
-    <section className={`container mx-auto px-4 py-20 border-t ${isDarkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="flex items-center justify-between mb-12"
-      >
-        <div className="flex items-center gap-3">
-          <BookOpen className={`w-8 h-8 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
-          <h3 className="text-3xl font-bold">Latest Blog Posts</h3>
-        </div>
-        {posts.length > 0 && (
-          <a
-            href={`https://github.com/${githubConfig.username}/${githubConfig.repo}/tree/${githubConfig.branch}/${githubConfig.blogsPath}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-              isDarkMode 
-                ? 'bg-green-400/10 text-green-400 hover:bg-green-400/20' 
-                : 'bg-green-600/10 text-green-600 hover:bg-green-600/20'
-            }`}
-          >
-            <ExternalLink className="w-4 h-4" />
-            View All on GitHub
-          </a>
-        )}
-      </motion.div>
-
+    <div>
       {loading && (
         <div className="flex justify-center items-center py-12">
-          <div className={`animate-spin rounded-full h-8 w-8 border-b-2 ${isDarkMode ? 'border-green-400' : 'border-green-600'}`}></div>
+          <motion.div
+            className="w-16 h-16 rounded-full"
+            style={{
+              border: `3px solid ${accentColor}`,
+              borderTopColor: 'transparent',
+            }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          />
         </div>
       )}
 
@@ -89,101 +66,148 @@ const BlogSection: React.FC<BlogSectionProps> = ({ isDarkMode, githubConfig }) =
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`flex items-center gap-3 p-6 rounded-lg ${isDarkMode ? 'bg-red-900/20 border border-red-800' : 'bg-red-50 border border-red-200'}`}
+          className="glass-panel p-6 rounded-xl"
+          style={{ borderColor: 'var(--accent-danger)' }}
         >
-          <AlertCircle className={`w-6 h-6 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} />
-          <div>
-            <h4 className={`font-semibold ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
-              Unable to load blog posts
-            </h4>
-            <p className={`text-sm ${isDarkMode ? 'text-red-300' : 'text-red-500'}`}>
-              {error}. Make sure your GitHub repository and blog posts are set up correctly.
-            </p>
+          <div className="flex items-start gap-3">
+            <AlertCircle size={24} style={{ color: 'var(--accent-danger)' }} />
+            <div>
+              <h4 className="font-heading font-semibold mb-2" style={{ color: 'var(--accent-danger)' }}>
+                Unable to load research notes
+              </h4>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                {error}. Verify the repository configuration and network connection.
+              </p>
+            </div>
           </div>
         </motion.div>
       )}
 
       {!loading && !error && posts.length === 0 && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center py-16 glass-panel rounded-xl"
+          style={{ borderColor: 'var(--border-medium)' }}
         >
-          <BookOpen className={`w-16 h-16 mx-auto mb-4 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} />
-          <h4 className="text-xl font-semibold mb-2">No blog posts found</h4>
-          <p>Create some markdown files in your GitHub repository to get started!</p>
+          <BookOpen size={64} className="mx-auto mb-4" style={{ color: 'var(--text-tertiary)' }} />
+          <h4 className="text-xl font-heading font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+            No Research Notes Found
+          </h4>
+          <p style={{ color: 'var(--text-secondary)' }}>
+            Create markdown files in your repository to share your findings.
+          </p>
         </motion.div>
       )}
 
       {!loading && !error && posts.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedPosts.map((post, index) => {
-            return (
-            <motion.article
-              key={post.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ scale: 1.02 }}
-              className={`group rounded-lg p-6 ${isDarkMode ? 'bg-zinc-900 hover:bg-zinc-800' : 'bg-zinc-50 hover:bg-zinc-100'} transition-all duration-300`}
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <Calendar className={`w-4 h-4 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
-                <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  {formatDate(post.date)}
-                </span>
-              </div>
-              
-              <h4 className={`text-xl font-semibold mb-3 group-hover:${isDarkMode ? 'text-green-400' : 'text-green-600'} transition-colors`}>
-                {post.title}
-              </h4>
-              
-              <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mb-4 line-clamp-2`}>
-                {getExcerpt(post.content)}
-              </p>
-              
-              <div className="flex items-center justify-between mt-4">
-                <a
-                  href={`https://github.com/${githubConfig.username}/${githubConfig.repo}/blob/${githubConfig.branch}/${githubConfig.blogsPath}/${post.slug}.md`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    isDarkMode 
-                      ? 'bg-green-400/10 text-green-400 hover:bg-green-400/20' 
-                      : 'bg-green-600/10 text-green-600 hover:bg-green-600/20'
-                  }`}
-                >
-                  Read More
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
-            </motion.article>
-          )})}
-        </div>
-      )}
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {displayedPosts.map((post, index) => (
+              <motion.article
+                key={post.slug}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="glass-panel rounded-xl p-6 hover:scale-[1.02] transition-transform"
+                style={{ 
+                  borderColor: `${accentColor}60`,
+                  backgroundColor: 'var(--surface-glass)',
+                  backdropFilter: 'blur(10px)',
+                }}
+                whileHover={{
+                  boxShadow: `0 0 30px ${accentColor}40`,
+                  borderColor: `${accentColor}80`,
+                }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <Calendar size={16} style={{ color: accentColor }} />
+                  <span className="text-sm font-mono" style={{ color: 'var(--text-tertiary)' }}>
+                    {formatDate(post.date)}
+                  </span>
+                </div>
 
-      {!loading && !error && posts.length > 6 && !showAllPosts && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-8"
-        >
-          <button
-            onClick={() => setShowAllPosts(true)}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors ${
-              isDarkMode 
-                ? 'bg-green-400 text-black hover:bg-green-300' 
-                : 'bg-green-600 text-white hover:bg-green-500'
-            }`}
+                <h4 className="text-xl font-heading font-bold mb-3" style={{ 
+                  color: accentColor,
+                  textShadow: `0 0 15px ${accentColor}40`,
+                }}>
+                  {post.title}
+                </h4>
+
+                <p className="text-sm mb-4 leading-relaxed line-clamp-3" style={{ color: 'var(--text-primary)' }}>
+                  {getExcerpt(post.content, 200)}
+                </p>
+
+                <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+                  <a
+                    href={`https://github.com/${githubConfig.username}/${githubConfig.repo}/blob/${githubConfig.branch}/${githubConfig.blogsPath}/${post.slug}.md`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg hover:scale-105 transition-transform font-mono text-sm"
+                    style={{
+                      backgroundColor: `${accentColor}20`,
+                      color: accentColor,
+                      border: `1px solid ${accentColor}60`,
+                    }}
+                  >
+                    Read More
+                    <ExternalLink size={14} />
+                  </a>
+
+                  <motion.div
+                    className="flex items-center gap-2 text-xs font-mono"
+                    style={{ color: 'var(--text-tertiary)' }}
+                  >
+                    <Clock size={12} />
+                    <span>{Math.ceil(post.content.split(' ').length / 200)} min</span>
+                  </motion.div>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+
+          {posts.length > 6 && !showAllPosts && (
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <button
+                onClick={() => setShowAllPosts(true)}
+                className="inline-flex items-center gap-3 px-6 py-3 rounded-xl font-heading font-semibold"
+                style={{
+                  background: `linear-gradient(135deg, ${accentColor}, var(--accent-plasma))`,
+                  color: 'white',
+                  boxShadow: `0 0 20px ${accentColor}40`,
+                }}
+              >
+                <BookOpen size={20} />
+                Load All Notes ({posts.length})
+              </button>
+            </motion.div>
+          )}
+
+          <motion.div
+            className="text-center mt-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
           >
-            <BookOpen className="w-4 h-4" />
-            Show All Posts ({posts.length})
-          </button>
-        </motion.div>
+            <a
+              href={`https://github.com/${githubConfig.username}/${githubConfig.repo}/tree/${githubConfig.branch}/${githubConfig.blogsPath}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-mono hover:scale-105 transition-transform"
+              style={{ color: 'var(--text-tertiary)' }}
+            >
+              View full archive on GitHub
+              <ExternalLink size={14} />
+            </a>
+          </motion.div>
+        </>
       )}
-    </section>
+    </div>
   );
 };
 
