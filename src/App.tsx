@@ -9,6 +9,7 @@ import BootSequence from './components/BootSequence';
 import Navbar from './components/Navbar';
 import ProjectCard, { ExperienceCard, SkillCategory } from './components/ContentCards';
 import BlogSection from './components/BlogSection';
+import TypingText from './components/TypingText';
 
 type PanelView = 'galaxy' | 'projects' | 'skills' | 'experience' | 'blog' | 'contact';
 
@@ -97,7 +98,11 @@ function AppContent() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    {portfolioData.personal.name}
+                    <TypingText
+                      text={portfolioData.personal.name}
+                      delay={500}
+                      speed={60}
+                    />
                   </motion.h1>
 
                   <motion.p
@@ -113,7 +118,11 @@ function AppContent() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                   >
-                    {portfolioData.personal.title}
+                    <TypingText
+                      text={portfolioData.personal.title}
+                      delay={portfolioData.personal.name.length * 60 + 600}
+                      speed={50}
+                    />
                   </motion.p>
 
                   <motion.p
@@ -130,7 +139,11 @@ function AppContent() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}
                   >
-                    {portfolioData.personal.bio}
+                    <TypingText
+                      text={portfolioData.personal.bio}
+                      delay={(portfolioData.personal.name.length * 60) + (portfolioData.personal.title.length * 50) + 700}
+                      speed={35}
+                    />
                   </motion.p>
                 </motion.div>
               </motion.div>

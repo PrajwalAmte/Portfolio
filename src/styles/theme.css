@@ -15,9 +15,9 @@
   --accent-danger: #ff3366;
   
   /* Typography Scale */
-  --font-heading: 'Orbitron', 'Rajdhani', 'Exo 2', sans-serif;
-  --font-body: 'Inter', 'Roboto', 'system-ui', sans-serif;
-  --font-mono: 'Fira Code', 'Roboto Mono', monospace;
+  --font-heading: 'JetBrains Mono', 'Inconsolata', 'Monaco', 'Courier New', monospace;
+  --font-body: 'JetBrains Mono', 'Inconsolata', 'Monaco', 'Courier New', monospace;
+  --font-mono: 'JetBrains Mono', 'Inconsolata', 'Monaco', 'Courier New', monospace;
   
   /* Spacing System */
   --space-xs: 0.25rem;
