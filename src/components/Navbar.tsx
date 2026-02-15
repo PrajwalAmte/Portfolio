@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Download, Sun, Moon } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Download, Sun, Moon, Menu, X } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
 interface NavbarProps {
@@ -11,12 +11,13 @@ interface NavbarProps {
 
 export default function Navbar({ name, resumePath, onNavigate }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Projects', view: 'projects', onClick: () => onNavigate?.('projects') },
-    { label: 'Skills', view: 'skills', onClick: () => onNavigate?.('skills') },
-    { label: 'Experience', view: 'experience', onClick: () => onNavigate?.('experience') },
-    { label: 'Blog', view: 'blog', onClick: () => onNavigate?.('blog') },
+    { label: 'Projects', view: 'projects', onClick: () => { onNavigate?.('projects'); setMobileMenuOpen(false); } },
+    { label: 'Skills', view: 'skills', onClick: () => { onNavigate?.('skills'); setMobileMenuOpen(false); } },
+    { label: 'Experience', view: 'experience', onClick: () => { onNavigate?.('experience'); setMobileMenuOpen(false); } },
+    { label: 'Blog', view: 'blog', onClick: () => { onNavigate?.('blog'); setMobileMenuOpen(false); } },
   ];
 
 
@@ -34,9 +35,9 @@ export default function Navbar({ name, resumePath, onNavigate }: NavbarProps) {
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo - Just Name */}
+          {/* Logo - Hidden on mobile */}
           <motion.div
-            className="flex items-center gap-3"
+            className="hidden sm:flex items-center gap-3"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
@@ -45,7 +46,7 @@ export default function Navbar({ name, resumePath, onNavigate }: NavbarProps) {
             </span>
           </motion.div>
 
-          {/* Navigation Links */}
+          {/* Navigation Links - Hidden on mobile */}
           <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
             {navLinks.map((link, idx) => (
               <motion.button
@@ -66,7 +67,7 @@ export default function Navbar({ name, resumePath, onNavigate }: NavbarProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ml-auto">
             {/* Theme Toggle */}
             <motion.button
               onClick={toggleTheme}
@@ -81,11 +82,11 @@ export default function Navbar({ name, resumePath, onNavigate }: NavbarProps) {
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </motion.button>
 
-            {/* Resume Download */}
+            {/* Resume Download - Show on all screen sizes */}
             <motion.a
               href={resumePath}
               download
-              className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-sm"
+              className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg font-mono text-xs md:text-sm"
               style={{
                 background: theme === 'dark'
                   ? 'linear-gradient(135deg, #ffa500, #ff8c00)'
@@ -106,10 +107,56 @@ export default function Navbar({ name, resumePath, onNavigate }: NavbarProps) {
               <Download size={16} />
               <span className="hidden sm:inline">Resume</span>
             </motion.a>
+
+            {/* Hamburger Menu - Mobile only */}
+            <motion.button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg"
+              style={{
+                backgroundColor: 'var(--interactive-hover)',
+                color: 'var(--text-primary)',
+              }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
           </div>
         </div>
 
-
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="md:hidden border-t"
+              style={{ borderColor: 'var(--border-medium)' }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="px-4 py-4 space-y-3">
+                {navLinks.map((link) => (
+                  <motion.button
+                    key={link.label}
+                    onClick={link.onClick}
+                    className="w-full text-left px-4 py-3 rounded-lg font-mono text-sm transition-colors"
+                    style={{
+                      color: 'var(--text-secondary)',
+                      backgroundColor: 'var(--interactive-hover)',
+                    }}
+                    whileHover={{
+                      backgroundColor: 'var(--interactive-active)',
+                      color: 'var(--accent-cyan)',
+                    }}
+                  >
+                    {link.label}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.nav>
   );
