@@ -36,7 +36,7 @@ function AppContent() {
       )}
 
       {!showBoot && (
-        <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        <div className="relative min-h-screen overflow-hidden" style={{ backgroundColor: theme === 'dark' ? '#0a0a0f' : '#fafbff' }}>
           <ThreeBackground />
 
           <Navbar
